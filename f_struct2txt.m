@@ -27,7 +27,9 @@ for i_fld1 = 1:numel(c_fieldsLev1)
                 c_fieldsLev3 = fields(structIn.(char(c_fieldsLev1(i_fld1))).(char(c_fieldsLev2(i_fld2))));
                 for i_fld3 = 1:numel(c_fieldsLev3)
                     fprintf(fid, '%s\n', strcat('        +', string(c_fieldsLev3(i_fld3))));
-                    if iscell(structIn.(char(c_fieldsLev1(i_fld1))).(char(c_fieldsLev2(i_fld2))).(char(c_fieldsLev3(i_fld3))))
+                    if isstruct(structIn.(char(c_fieldsLev1(i_fld1))).(char(c_fieldsLev2(i_fld2))).(char(c_fieldsLev3(i_fld3))))
+                        warning('This function does not work with structures that contain 4 levels. Who creates structures this deep anyway?! You monster!')
+                    elseif iscell(structIn.(char(c_fieldsLev1(i_fld1))).(char(c_fieldsLev2(i_fld2))).(char(c_fieldsLev3(i_fld3))))
                         for i_fld4 = 1:numel(structIn.(char(c_fieldsLev1(i_fld1))).(char(c_fieldsLev2(i_fld2))).(char(c_fieldsLev3(i_fld3))))
                             fprintf(fid, '%s\n',strcat('            +----', char(structIn.(char(c_fieldsLev1(i_fld1))).(char(c_fieldsLev2(i_fld2))).(char(c_fieldsLev3(i_fld3))){i_fld4})));
                         end
