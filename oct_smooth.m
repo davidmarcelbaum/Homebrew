@@ -18,14 +18,16 @@ for i_init = 1:s_smoothing/2
 end
 for i_full = i_init+1:numel(v_in)-s_smoothing/2
     v_smoothed(i_full) = ...
-      sum(v_in(i_full-s_smoothing/2:i_full+s_smoothing/2)) / s_smoothing;
+      sum(v_in(i_full+1-s_smoothing/2:i_full+s_smoothing/2)) / s_smoothing;
 end
-for i_end = i_full+1:numel(v_in)
+for i_end = i_full+1:numel(v_in)-1
     % Decreasing number of data points available
     diff2end = numel(v_in)-i_end;
-    v_smoothed(i_end) = ...
-      sum(v_in(i_end-diff2end:i_end+diff2end)) / (2*diff2end);
+    idx_v    = i_end-diff2end:i_end+diff2end;
+    s_span   = numel(idx_v);
+    v_smoothed(i_end) = sum(v_in(idx_v)) / s_span;
 end
+v_smoothed(size_in) = v_in(end);
 
 if size_in ~= numel(v_smoothed) || any(isnan(v_smoothed))
     error('Moving window size seems to be wrong')
