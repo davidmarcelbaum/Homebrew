@@ -16,9 +16,13 @@ for i_init = 1:s_smoothing/2
     s_span = i_init - 1 + i_init;
     v_smoothed(i_init) = sum(v_in(1:s_span)) / s_span;
 end
+
+% Attempt to speed up this for loop since it's taking the longest and has 
+% variables of constant lengths
+idx_span = zeros(1, s_smoothing);
 for i_full = i_init+1:numel(v_in)-s_smoothing/2
-    v_smoothed(i_full) = ...
-      sum(v_in(i_full+1-s_smoothing/2:i_full+s_smoothing/2)) / s_smoothing;
+    idx_span           = i_full+1-s_smoothing/2:i_full+s_smoothing/2;
+    v_smoothed(i_full) = sum(v_in(idx_span)) / s_smoothing;
 end
 for i_end = i_full+1:numel(v_in)-1
     % Decreasing number of data points available
