@@ -7,6 +7,9 @@ function [v_smoothed] = oct_smooth(v_in, s_smoothing)
 % v_in              A n-by-1 or 1-by-n vector
 % s_smoothing       Smoothing degree (scalar of data points per averaging)
 
+% Performance of this function is approx. 20x worse than MATLAB's smooth
+% function and probably needs adjustments to increase its performance.
+
 size_in = numel(v_in);
 
 v_smoothed = nan(size_in, 1);

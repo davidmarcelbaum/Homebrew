@@ -6,7 +6,8 @@ function f_struct2txt(structIn, exportPath, exportName)
 % exportPath    = Where the exported text file has to be saved
 % exportName    = Naming the export file
 
-
+if exist('OCTAVE_VERSION', 'builtin') == 0
+    
 if ~strcmp(exportPath(end), filesep)
     exportPath = strcat(exportPath, filesep);
 end
@@ -54,5 +55,21 @@ for i_fld1 = 1:numel(c_fieldsLev1)
     end
 end
 fclose(fid);
+
+elseif exist('OCTAVE_VERSION', 'builtin') ~= 0
+
+if ~strcmp(exportPath(end), filesep)
+    exportPath = strcat(exportPath, filesep);
+end
+
+if isempty(strfind(exportName, '.txt'))
+    exportName = strcat(exportName, '.txt');
+end
+
+error('Octave compatibility is not implemented!')
+
+end
+
+
 
 end
